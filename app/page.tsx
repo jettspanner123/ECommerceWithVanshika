@@ -1,29 +1,41 @@
 "use client";
 import React from "react";
-import { useTheme, GetBackgroundColor } from "./states/Theme";
+import { useTheme, ThemeOption } from "./states/Theme";
+import Navbar from "./components/Navbar";
 
 export default function Home(): React.JSX.Element {
-    let {current, toggleTheme, setTheme} = useTheme();
+  React.useEffect(() => {
+    (async () => {
+      const locomotiveScroll = (await import("locomotive-scroll")).default;
+      const LocomotiveScroll = new locomotiveScroll();
+    })();
+  }, []);
 
-    React.useEffect(() => {
-        let isThemeAvailable = window.localStorage.getItem("theme");
-        if (isThemeAvailable) {
-            setTheme(isThemeAvailable);
-        }
+  let { current, toggleTheme, setTheme } = useTheme();
 
-    }, []);
+  React.useEffect(() => {
+    let isThemeAvailable = window.localStorage.getItem("theme");
+    if (isThemeAvailable) {
+      setTheme(isThemeAvailable);
+    }
+  }, []);
 
-    React.useEffect(() => {
-        window.localStorage.setItem("theme", current);
-    }, [current]);
+  React.useEffect(() => {
+    window.localStorage.setItem("theme", current);
+  }, [current]);
 
-    return (
-        <React.Fragment>
-            <main style={{ backgroundColor: GetBackgroundColor()}} className="w-screen min-h-screen">
-                <button onClick={toggleTheme} className="text-red-300">
-                    Click Me
-                </button>
-            </main>
-       </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <main
+        style={{
+          backgroundColor: current === ThemeOption.light ? "white" : "black",
+          color: current === ThemeOption.light ? "black" : "white",
+        }}
+        className="min-h-screen w-screen"
+      >
+        <Navbar />
+        <button onClick={toggleTheme}>clikc me</button>
+      </main>
+    </React.Fragment>
+  );
 }

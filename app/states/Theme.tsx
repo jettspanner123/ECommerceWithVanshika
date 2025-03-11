@@ -6,7 +6,7 @@ interface UseThemeInterface {
     setTheme: (someTheme: string) => void
 }
 
-enum ThemeOption {
+export enum ThemeOption {
     light = "light", dark = "dark"
 }
 
